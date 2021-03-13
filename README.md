@@ -1,20 +1,25 @@
 # Stonepay
 
-To start your Phoenix server:
+## Run project with docker-compose
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-  * Start Phoenix endpoint with `mix phx.server`
+Obs: [docker](https://docs.docker.com/get-docker/) and [docker-compose](https://docs.docker.com/compose/install/) need to be installed
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Build project
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+```bash
+docker-compose build
+```
 
-## Learn more
+### Create and migrate your database
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```bash
+docker-compose run --rm phoenix mix ecto.setup
+```
+
+### Start project
+
+```bash
+docker-compose up
+```
+
+Now you can visit [`localhost:4000/`](http://localhost:4000/) from your browser.

@@ -18,6 +18,8 @@ services:
     build: .
     links:
       - "db:dockerdb"
+    environment:
+      - DB_HOSTNAME=db
     volumes:
       - .:/app
     ports:

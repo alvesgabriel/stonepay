@@ -2,6 +2,8 @@ defmodule Stonepay.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Stonepay.Payment.Account
+
   @derive {Inspect, except: [:password]}
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -13,6 +15,8 @@ defmodule Stonepay.Accounts.User do
     field :password, :string, virtual: true
     field :hashed_password, :string
     field :confirmed_at, :naive_datetime
+
+    has_one :account, Account
 
     timestamps()
   end

@@ -3,7 +3,17 @@ defmodule StonepayWeb.UserView do
 
   def render("create.json", %{user: user}) do
     %{
-      user: %{id: user.id}
+      user: %{
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        birthday: user.birthday,
+        account: %{
+          id: user.account.id,
+          balance: user.account.balance
+        }
+      }
     }
   end
 

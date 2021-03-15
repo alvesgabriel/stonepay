@@ -1,4 +1,6 @@
-# Stonepay
+# [Stonepay](http://stonepay.gigalixirapp.com/)
+
+The application is running in the Gigalixir. [Click here](http://stonepay.gigalixirapp.com/) to open it.
 
 ## Run project with docker-compose
 

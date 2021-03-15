@@ -129,6 +129,7 @@ defmodule Stonepay.AccountsTest do
         })
 
       assert user.email == email
+      assert user.account.balance == Decimal.new(1000)
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
       assert is_nil(user.password)

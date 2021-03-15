@@ -74,6 +74,33 @@ defmodule Stonepay.Accounts do
 
   """
   def register_user(attrs) do
+    case Repo.transaction(create_user_multi(attrs)) do
+      {:ok, result} -> {:ok, Repo.preload(result.user, :account)}
+      {:error, _, result, _} -> {:error, result}
+    end
+  end
+
+  def create_user_multi(attrs) do
+    changeset =
+      %User{}
+      |> User.registration_changeset(attrs)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.insert(:user, changeset)
+    |> Ecto.Multi.insert(
+      :account,
+      fn(%{user: user}) ->
+        account =
+          %Stonepay.Payment.Account{}
+        |> Stonepay.Payment.Account.registrations_changeset(%{
+          balance: 1000,
+        })
+        Ecto.build_assoc(user, :account, account.changes)
+      end
+    )
+  end
+
+  def create_user(attrs) do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()

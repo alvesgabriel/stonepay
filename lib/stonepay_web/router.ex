@@ -16,6 +16,10 @@ defmodule StonepayWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :api_auth do
+    plug :accepts, ["json"]
+  end
+
   scope "/", StonepayWeb do
     pipe_through :browser
 
@@ -28,14 +32,14 @@ defmodule StonepayWeb.Router do
 
     post "/users/", UserController, :create
     post "/users/log_in", UserController, :log_in
-    # delete "/users/log_in", UserController, :log_out
   end
 
-  # scope "/api", StonepayWeb do
-  #   pipe_through :api
+  scope "/api", StonepayWeb do
+    pipe_through :api_auth
 
-  #   resources "/users/", UserController, only: [:create]
-  # end
+    # resources "/accounts", AccountController, except: [:new, :edit]
+    # delete "/users/log_in", UserController, :log_out
+  end
 
   # Enables LiveDashboard only for development
   #

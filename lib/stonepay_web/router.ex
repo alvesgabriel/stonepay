@@ -18,6 +18,9 @@ defmodule StonepayWeb.Router do
 
   pipeline :api_auth do
     plug :accepts, ["json"]
+
+    plug :fetch_session
+    plug Stonepay.Auth.Pipeline
   end
 
   scope "/", StonepayWeb do
@@ -37,7 +40,9 @@ defmodule StonepayWeb.Router do
   scope "/api", StonepayWeb do
     pipe_through :api_auth
 
-    # resources "/accounts", AccountController, except: [:new, :edit]
+    resources "/users/transactions", TransactionController, only: [:index, :show]
+    post "/users/transactions/withdraw", TransactionController, :withdraw
+    post "/users/transactions/transfer", TransactionController, :transfer
     # delete "/users/log_in", UserController, :log_out
   end
 

@@ -35,6 +35,20 @@ defmodule Stonepay.AccountsFixtures do
     }
   end
 
+  def user_debit() do
+    {:ok, user} =
+      %{
+        "username" => "windu",
+        "name" => "Mace Windu",
+        "birthday" => ~D[1970-07-12],
+        "email" => "windu@jedi.com",
+        "password" => valid_user_password()
+      }
+      |> Stonepay.Accounts.register_user()
+
+    user
+  end
+
   def extract_user_token(fun) do
     {:ok, captured} = fun.(&"[TOKEN]#{&1}[TOKEN]")
     [_, token, _] = String.split(captured.body, "[TOKEN]")

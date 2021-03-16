@@ -89,12 +89,13 @@ defmodule Stonepay.Accounts do
     |> Ecto.Multi.insert(:user, changeset)
     |> Ecto.Multi.insert(
       :account,
-      fn(%{user: user}) ->
+      fn %{user: user} ->
         account =
           %Stonepay.Payment.Account{}
-        |> Stonepay.Payment.Account.registrations_changeset(%{
-          balance: 1000,
-        })
+          |> Stonepay.Payment.Account.registrations_changeset(%{
+            balance: 1000
+          })
+
         Ecto.build_assoc(user, :account, account.changes)
       end
     )
@@ -253,7 +254,11 @@ defmodule Stonepay.Accounts do
   Generates a API token.
   """
   def generate_user_api_token(user) do
-    {token, user_token} = UserToken.build_email_token(user, "api")
+    {:ok, token, _claims} = Stonepay.Auth.Guardian.encode_and_sign(user, %{}, token_type: :access)
+
+    {_, user_token} = UserToken.build_email_token(user, "api")
+    user_token = Map.replace(user_token, :token, token)
+
     Repo.insert!(user_token)
     token
   end

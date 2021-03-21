@@ -21,4 +21,14 @@ defmodule StonepayWeb.UserController do
       |> render("log_in.json", %{user: user, token: token})
     end
   end
+
+  def log_out(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    token = Guardian.Plug.current_token(conn)
+
+    Accounts.delete_api_user_token(token)
+    Stonepay.Auth.Guardian.revoke(token)
+
+    conn |> render("log_out.json", %{user: user})
+  end
 end

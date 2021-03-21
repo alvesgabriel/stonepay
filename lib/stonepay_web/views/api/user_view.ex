@@ -25,4 +25,11 @@ defmodule StonepayWeb.UserView do
       token: token
     }
   end
+
+  def render("log_out.json", %{user: user}) do
+    %{
+      user_id: user.id,
+      message: "user log out"
+    }
+  end
 end

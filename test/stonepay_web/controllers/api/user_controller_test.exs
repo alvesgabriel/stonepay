@@ -3,6 +3,17 @@ defmodule StonepayWeb.UserControllerTest do
 
   import Stonepay.AccountsFixtures
 
+  setup %{conn: conn} do
+    token =
+      user_fixture()
+      |> Stonepay.Accounts.generate_user_api_token()
+
+    conn = put_req_header(conn, "accept", "application/json")
+    conn_auth = put_req_header(conn, "authorization", "Bearer #{token}")
+
+    {:ok, conn: conn, conn_auth: conn_auth}
+  end
+
   describe "POST /api/users/" do
     test "API creates account user", %{conn: conn} do
       user = user_attrs()
@@ -42,6 +53,13 @@ defmodule StonepayWeb.UserControllerTest do
 
       user_id = user.id
       assert %{"token" => _, "user_id" => ^user_id} = json_response(conn, 200)
+    end
+  end
+
+  describe "DELETE /api/users/log_out" do
+    test "API log out", %{conn_auth: conn_auth} do
+      conn_auth = delete(conn_auth, Routes.user_path(conn_auth, :log_out))
+      assert %{"message" => "user log out"} = json_response(conn_auth, 200)
     end
   end
 end

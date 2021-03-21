@@ -263,6 +263,11 @@ defmodule Stonepay.Accounts do
     token
   end
 
+  def delete_api_user_token(token) do
+    Repo.delete_all(UserToken.token_and_context_query(token, "api"))
+    :ok
+  end
+
   @doc """
   Gets the user with the given signed token.
   """

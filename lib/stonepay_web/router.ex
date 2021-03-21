@@ -43,7 +43,7 @@ defmodule StonepayWeb.Router do
     resources "/users/transactions", TransactionController, only: [:index, :show]
     post "/users/transactions/withdraw", TransactionController, :withdraw
     post "/users/transactions/transfer", TransactionController, :transfer
-    # delete "/users/log_in", UserController, :log_out
+    delete "/users/log_in", UserController, :log_out
   end
 
   # Enables LiveDashboard only for development

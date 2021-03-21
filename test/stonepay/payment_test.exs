@@ -99,7 +99,7 @@ defmodule Stonepay.PaymentTest do
 
     test "withdraw/1 with value greater than balance" do
       withdrawal =
-        withdrawal_attrs() |> Map.replace!("value", Decimal.mult(valid_account_balance, 10))
+        withdrawal_attrs() |> Map.replace!("value", Decimal.mult(valid_account_balance(), 10))
 
       {:error, changeset} = Payment.withdraw(withdrawal)
       assert "balance minimum is zero" in errors_on(changeset).balance
